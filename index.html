@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bunny Vacation</title>
+<style>
+:root{
+  --pink:#f5c9da;
+  --pink2:#ff8faa;
+  --orange:#ff6f4f;
+  --orange2:#ffb05f;
+  --lime:#edf77a;
+  --green:#d8efb0;
+  --cream:#fff9f3;
+  --ink:#2f2830;
+  --white:#fffdfb;
+  --line:#ff6f79;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  background:
+    linear-gradient(rgba(255,111,121,.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,111,121,.22) 1px, transparent 1px),
+    var(--pink);
+  background-size:42px 42px;
+  font-family:Arial, Helvetica, sans-serif;
+}
+a{color:inherit}
+.wrap{width:min(1120px,calc(100% - 28px));margin:auto;padding:26px 0 72px}
+.hero{
+  position:relative;
+  min-height:250px;
+  border:2px solid var(--line);
+  background:var(--pink);
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  box-shadow:10px 10px 0 var(--orange);
+}
+.hero-inner{padding:34px;position:relative;z-index:3}
+h1{
+  margin:0;
+  font-size:clamp(3rem,9vw,7.4rem);
+  line-height:.86;
+  letter-spacing:-.075em;
+  text-transform:lowercase;
+}
+.kicker{
+  display:inline-flex; gap:8px; align-items:center;
+  background:var(--lime);
+  border:2px solid var(--ink);
+  padding:7px 12px;
+  font-weight:800;
+  font-size:.8rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:18px;
+  transform:rotate(-1deg);
+}
+.sticker{position:absolute;z-index:2;filter:drop-shadow(4px 5px 0 rgba(47,40,48,.14))}
+.s1{right:4%;top:12%;transform:rotate(11deg)}
+.s2{right:25%;bottom:14%;transform:rotate(-8deg)}
+.s3{left:49%;top:12%;transform:rotate(5deg)}
+.bunny-mini{
+  width:76px;height:76px;border:2px solid var(--ink);border-radius:50%;
+  background:var(--cream);position:relative;display:grid;place-items:center;font-size:34px;
+}
+.bunny-mini:before,.bunny-mini:after{
+  content:"";position:absolute;width:22px;height:52px;border:2px solid var(--ink);
+  background:var(--cream);border-radius:50%;top:-35px
+}
+.bunny-mini:before{left:10px;transform:rotate(-9deg)}
+.bunny-mini:after{right:10px;transform:rotate(9deg)}
+.blob{width:78px;height:78px;background:var(--orange);border:2px solid var(--ink);border-radius:52% 48% 58% 42% / 45% 58% 42% 55%}
+.stripe{width:82px;height:82px;border:2px solid var(--ink);background:repeating-linear-gradient(90deg,var(--cream) 0 9px,var(--ink) 9px 15px);border-radius:50%}
+
+.nav{
+  margin:22px 0 34px;
+  display:flex;flex-wrap:wrap;gap:9px;
+}
+.nav a{
+  text-decoration:none;background:var(--cream);border:2px solid var(--ink);
+  padding:9px 12px;font-size:.85rem;font-weight:800;text-transform:uppercase;
+}
+.nav a:nth-child(2n){background:var(--green)}
+.nav a:nth-child(3n){background:var(--orange2)}
+.section{
+  margin-top:46px;
+  position:relative;
+}
+.section-head{
+  display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px;
+}
+.section h2{
+  margin:0;font-size:clamp(2rem,5vw,4.2rem);letter-spacing:-.05em;line-height:.95;
+}
+.label{
+  background:var(--lime);border:2px solid var(--ink);padding:6px 9px;
+  font-size:.76rem;font-weight:800;text-transform:uppercase;transform:rotate(1.5deg)
+}
+.days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.day{
+  border:2px solid var(--ink);background:rgba(255,249,243,.93);overflow:hidden;
+}
+.day-title{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 16px;border-bottom:2px solid var(--ink);background:var(--green);
+}
+.day:nth-child(2) .day-title{background:var(--orange2)}
+.day:nth-child(3) .day-title{background:var(--lime)}
+.day:nth-child(4) .day-title{background:var(--pink2)}
+.day-title h3{margin:0;font-size:1.6rem}
+.slot{padding:15px 16px;border-bottom:1px solid rgba(47,40,48,.22)}
+.slot:last-child{border-bottom:0}
+.slot h4{
+  margin:0 0 9px;font-size:.78rem;text-transform:uppercase;letter-spacing:.12em
+}
+.opt{display:grid;grid-template-columns:28px 1fr;gap:8px;margin:8px 0}
+.opt b{font-size:.95rem}
+.event-link{display:inline-block;margin-top:5px;font-size:.74rem;font-weight:800;text-transform:uppercase;text-decoration:none;border-bottom:2px solid var(--ink)}
+.event-link:hover{opacity:.65}
+.opt p{margin:2px 0 0;font-size:.85rem;line-height:1.35;color:#544953}
+.dot{width:21px;height:21px;border-radius:50%;border:2px solid var(--ink);background:var(--pink)}
+.slot:nth-child(2) .dot{background:var(--orange2)}
+.slot:nth-child(3) .dot{background:var(--green)}
+.slot:nth-child(4) .dot{background:var(--pink2)}
+
+.locations{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px
+}
+.place{
+  background:var(--cream);border:2px solid var(--ink);overflow:hidden;position:relative
+}
+.place img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-bottom:2px solid var(--ink)}
+.place-body{padding:14px}
+.place h3{margin:0 0 6px;font-size:1.25rem}
+.place p{margin:0;font-size:.84rem;line-height:1.4}
+.tag{
+  display:inline-block;margin-top:10px;padding:4px 7px;border:1.5px solid var(--ink);
+  background:var(--green);font-size:.7rem;font-weight:800;text-transform:uppercase
+}
+.credit{font-size:.64rem;margin-top:8px;opacity:.62}
+.swim{background:var(--lime)}
+.night{background:var(--orange2)}
+.skate{background:var(--pink2)}
+.culture{background:var(--green)}
+
+.notes{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px
+}
+.note{
+  border:2px solid var(--ink);padding:18px;background:var(--cream)
+}
+.note:nth-child(2){background:var(--green)}
+.note h3{margin:0 0 8px}
+.note ul{margin:0;padding-left:18px}
+.note li{margin:6px 0}
+
+.footer{
+  margin-top:52px;display:flex;align-items:center;justify-content:space-between;
+  border-top:2px solid var(--ink);padding-top:14px;font-size:.8rem
+}
+.carrot{
+  width:70px;height:22px;background:var(--orange);border:2px solid var(--ink);
+  border-radius:65% 35% 35% 65%;position:relative;transform:rotate(-7deg)
+}
+.carrot:after{
+  content:"";position:absolute;right:-18px;top:-9px;width:26px;height:34px;
+  background:var(--green);clip-path:polygon(0 50%,100% 0,74% 52%,100% 100%)
+}
+
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.filter{
+  appearance:none;border:2px solid var(--ink);background:var(--cream);color:var(--ink);
+  padding:9px 13px;font:800 .78rem Arial,sans-serif;text-transform:uppercase;cursor:pointer;
+  box-shadow:3px 3px 0 var(--ink)
+}
+.filter:hover,.filter.active{background:var(--lime);transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.diet-key{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 18px;font-size:.72rem;font-weight:700}
+.place.hidden{display:none}
+.photo{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-bottom:2px solid var(--ink);background:#eee}
+.fallback-photo{aspect-ratio:4/3;border-bottom:2px solid var(--ink);place-items:center;text-align:center;font-weight:900;font-size:1.25rem;letter-spacing:.08em}
+.fallback-photo span{background:var(--cream);border:2px solid var(--ink);padding:9px 12px;transform:rotate(-2deg)}
+.swim-photo{background:repeating-linear-gradient(135deg,#d8efb0 0 18px,#edf77a 18px 36px)}
+.eat-photo{background:radial-gradient(circle at 30% 30%,#edf77a 0 7%,transparent 8%),linear-gradient(135deg,#f5c9da,#ffb05f)}
+.music-photo{background:repeating-linear-gradient(90deg,#ff6f4f 0 12px,#f5c9da 12px 24px,#2f2830 24px 30px)}
+.other-photo{background:linear-gradient(135deg,#d8efb0 0 45%,#f5c9da 45% 70%,#ffb05f 70%)}
+.place-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:10px}
+.diet{font-weight:800;font-size:.8rem}
+.event-check{
+  margin-top:10px;padding-top:9px;border-top:1px dashed rgba(47,40,48,.45);
+  font-size:.68rem;line-height:1.35;opacity:.72
+}
+.place-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.map-btn,.info-btn{
+  display:inline-block;text-decoration:none;border:1.5px solid var(--ink);
+  padding:6px 8px;font-size:.7rem;font-weight:800;background:var(--white)
+}
+.map-btn:hover,.info-btn:hover{background:var(--lime)}
+
+@media(max-width:820px){
+  .days,.locations,.notes{grid-template-columns:1fr}
+  .hero{min-height:220px}
+  .hero-inner{padding:26px 20px}
+  .s3{display:none}
+  .locations{gap:14px}
+}
+
+.browser-note{
+  margin:-18px 0 28px;
+  padding:9px 11px;
+  border:1.5px dashed var(--ink);
+  background:rgba(255,249,243,.86);
+  font-size:.72rem;
+  line-height:1.35;
+}
+
+.preview-footer-note{
+  width:100%;
+  margin-bottom:10px;
+  font-size:.72rem;
+  line-height:1.4;
+}
+.footer{
+  flex-wrap:wrap;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+<div class="hero-inner">
+<div class="kicker">Prague · 3–6 September</div>
+<h1>bunny<br/>vacation</h1>
+</div>
+<div class="sticker s1"><div class="bunny-mini">•ᴗ•</div></div>
+<div class="sticker s2"><div class="blob"></div></div>
+<div class="sticker s3"><div class="stripe"></div></div>
+</section>
+<nav class="nav">
+<a href="#schedule">schedule</a>
+<a href="#places">locations</a>
+<a href="#swimming">swimming</a>
+</nav>
+<section class="section" id="schedule">
+<div class="section-head">
+<h2>schedule</h2>
+<div class="label">pick whatever feels right</div>
+</div>
+<div class="days">
+<article class="day">
+<div class="day-title"><h3>Thursday</h3><span>night</span></div>
+<div class="slot">
+<h4>evening / night</h4>
+<div class="opt"><span class="dot"></span><div><b><a href="https://www.mysticsk8cup.cz/en" target="_blank">Mystic Skatepark Štvanice ↗</a></b><p>PSH live, then stay around Štvanice.</p><a class="event-link" href="https://www.mysticsk8cup.cz/en" rel="noopener" target="_blank">event info ↗</a></div></div>
+<div class="opt"><span class="dot"></span><div><b><a href="https://bikejesus.com/" target="_blank">Bike Jesus ↗</a></b><p>3 OF CUPS — 001: AFTERS.</p></div></div>
+</div>
+</article>
+<article class="day">
+<div class="day-title"><h3>Friday</h3><span>swim day</span></div>
+<div class="slot">
+<h4>morning</h4>
+<div class="opt"><span class="dot"></span><div><b>Lom Kojetice</b><p>Go early for swimming.</p></div></div>
+<div class="opt"><span class="dot"></span><div><b>Jiřák market</b><p>Breakfast first, then leave for swimming.</p><a class="event-link" href="https://trhyjirak.cz/" rel="noopener" target="_blank">market info ↗</a></div></div>
+</div>
+<div class="slot">
+<h4>afternoon</h4>
+<div class="opt"><span class="dot"></span><div><b>Stay at Kojetice</b><p>Swim and hang out.</p></div></div>
+<div class="opt"><span class="dot"></span><div><b>Jezero Konětopy</b><p>Alternative swimming option.</p></div></div>
+</div>
+<div class="slot">
+<h4>evening / night</h4>
+<div class="opt"><span class="dot"></span><div><b><a href="https://conjunction.cz/" target="_blank">Conjunction at Vítkov ↗</a></b><p>Food, beer and live music.</p><a class="event-link" href="https://conjunction.cz/" rel="noopener" target="_blank">event info ↗</a></div></div>
+<div class="opt"><span class="dot"></span><div><b>Fuchs2 / Ankali</b><p>Late-night option.</p><a class="event-link" href="https://ra.co/events/2447304" rel="noopener" target="_blank">Fuchs2 ↗</a>   <a class="event-link" href="https://ra.co/events/2515814" rel="noopener" target="_blank">Ankali ↗</a></div></div>
+</div>
+</article>
+<article class="day">
+<div class="day-title"><h3>Saturday</h3><span>city day</span></div>
+<div class="slot">
+<h4>morning</h4>
+<div class="opt"><span class="dot"></span><div><b>Jiřák farmers' market</b><p>Breakfast and coffee.</p><a class="event-link" href="https://trhyjirak.cz/" rel="noopener" target="_blank">market info ↗</a></div></div>
+<div class="opt"><span class="dot"></span><div><b>Hala 22</b><p>Produce market, then continue toward Štvanice.</p></div></div>
+</div>
+<div class="slot">
+<h4>afternoon</h4>
+<div class="opt"><span class="dot"></span><div><b>Pražačka → Vítkov</b><p>Skatepark, then Conjunction.</p><a class="event-link" href="https://prazacka.cz/skatepark/" rel="noopener" target="_blank">skatepark ↗</a>   <a class="event-link" href="https://conjunction.cz/" rel="noopener" target="_blank">Conjunction ↗</a></div></div>
+<div class="opt"><span class="dot"></span><div><b><a href="https://www.kampushybernska.cz/program/czech-fungi-fest-2026" target="_blank">Czech Fungi Fest ↗</a></b><p>Kampus Hybernská.</p><a class="event-link" href="https://www.kampushybernska.cz/program/czech-fungi-fest-2026" rel="noopener" target="_blank">event info ↗</a></div></div>
+</div>
+<div class="slot">
+<h4>night</h4>
+<div class="opt"><span class="dot"></span><div><b><a href="https://ra.co/events/cz/prague?startDate=2026-09-05" target="_blank">Komiks at Mystic ↗</a></b><p>Main Saturday party option.</p><a class="event-link" href="https://ra.co/events/2494376" rel="noopener" target="_blank">event + tickets ↗</a></div></div>
+<div class="opt"><span class="dot"></span><div><b><a href="https://bikejesus.com/" target="_blank">Bike Jesus</a> / <a href="https://www.fuchs2.cz/shows" target="_blank">Fuchs2 ↗</a></b><p>Alternative late-night option.</p><a class="event-link" href="https://ra.co/events/2519877" rel="noopener" target="_blank">Bike Jesus ↗</a>   <a class="event-link" href="https://ra.co/events/2517770" rel="noopener" target="_blank">Fuchs2 ↗</a></div></div>
+</div>
+</article>
+<article class="day">
+<div class="day-title"><h3>Sunday</h3><span>slow finish</span></div>
+<div class="slot">
+<h4>morning</h4>
+<div class="opt"><span class="dot"></span><div><b>Letná / Stromovka</b><p>Coffee and a walk.</p></div></div>
+<div class="opt"><span class="dot"></span><div><b>MINT Market at Náplavka</b><p>River-side browsing.</p></div></div>
+</div>
+<div class="slot">
+<h4>afternoon</h4>
+<div class="opt"><span class="dot"></span><div><b>Czech Fungi Fest</b><p>Sunday alternative.</p><a class="event-link" href="https://www.kampushybernska.cz/program/czech-fungi-fest-2026" rel="noopener" target="_blank">event info ↗</a></div></div>
+<div class="opt"><span class="dot"></span><div><b>Pražačka / Vítkov</b><p>Easy local option before everyone leaves.</p></div></div><div class="opt"><span class="dot"></span><div><b><a href="https://biooko.net/" target="_blank">Bio Oko — kids creative workshop ↗</a></b><p>Sunday 15:00.</p></div></div>
+</div>
+</article>
+</div>
+</section>
+<section class="section" id="places">
+<div class="section-head">
+<h2>locations</h2>
+<div class="label">swim · eat · music · other</div>
+</div>
+<div aria-label="Filter locations" class="filters">
+<button class="filter active" data-filter="all">all</button>
+<button class="filter" data-filter="swim">🏊 swim</button>
+<button class="filter" data-filter="eat">🍕 eat + drink</button>
+<button class="filter" data-filter="concert">🎵 concerts</button>
+<button class="filter" data-filter="other">✦ other</button>
+</div>
+<div class="diet-key">
+<span>🥬 vegetarian option</span>
+<span>🌱 vegan option</span>
+<span>🌱* vegan by modification</span>
+</div>
+<div class="locations" id="locationGrid">
+<article class="place" data-type="swim">
+<img alt="Lom Kojetice" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://upload.wikimedia.org/wikipedia/commons/4/44/Lom_v_Kojetic%C3%ADch_03.jpg"/><div class="photo fallback-photo swim-photo" style="display:none">
+<span>LOM<br/>KOJETICE</span>
+</div>
+<div class="place-body">
+<h3>Lom Kojetice</h3>
+<p>Small flooded quarry near Neratovice, known for unusually clear water and freshwater jellyfish.</p>
+<div class="place-meta"><span class="tag swim">swim</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Lom+Kojetice+Czechia" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="swim">
+<img alt="Jezero Konětopy" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://media.extra.cz/static/img/2026/05/3-127_16_9_0-1024x576.jpg"/><div class="photo fallback-photo swim-photo" style="display:none"><span>JEZERO<br/>KONĚTOPY</span></div>
+<div class="place-body">
+<h3>Jezero Konětopy</h3>
+<p>Two flooded sand quarries with a quieter, more low-key swimming feel than the bigger Prague-area lakes.</p>
+<div class="place-meta"><span class="tag swim">swim</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Jezero+Konetopy+Czechia" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="swim">
+<img alt="Jezero Lhota" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.expats.cz/images/publishing/articles/2026/06/1280_650/lhota-lake-shutterstock-katuska.jpg"/><div class="photo fallback-photo swim-photo" style="display:none"><span>JEZERO<br/>LHOTA</span></div>
+<div class="place-body">
+<h3>Jezero Lhota</h3>
+<p>Large sandy swimming lake with pine shade, beaches and the easiest facilities of the swim options.</p>
+<div class="place-meta"><span class="tag swim">swim</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Jezero+Lhota+Czechia" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Angelato gelato" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://d50-a.sdn.cz/d_50/c_img_QJ_0/MFcB0/zkrzlina.jpeg?fl=cro%2C0%2C0%2C4032%2C3024%7Cres%2C1200%2C%2C1%7Cjpg%2C80%2C%2C1"/>
+<div class="photo fallback-photo eat-photo" style="display:none"><span>ANGELATO</span></div>
+<div class="place-body">
+<h3>Angelato</h3>
+<p>Popular Prague gelateria known for seasonal flavours, sorbets and very polished classic gelato.</p>
+<div class="place-meta"><span class="tag eat">ice cream</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Angelato+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Eaternia vegan food" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://images.happycow.net/venues/1024/15/85/hcmp158593_1400077.jpeg"/>
+<div class="photo fallback-photo eat-photo" style="display:none"><span>EATERNIA</span></div>
+<div class="place-body">
+<h3>Eaternia</h3>
+<p>Vegan canteen and community-style food spot in Smíchov with inexpensive daily meals, desserts and a casual DIY feel.</p>
+<div class="place-meta"><span class="tag eat">budget-ish</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Eaternia+Nadrazni+349%2F3+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Eaternia vegan jídelna exterior" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://images.happycow.net/venues/1024/15/85/hcmp158593_953139.jpeg"/>
+<div class="photo fallback-photo eat-photo" style="display:none"><span>VEGAN<br/>ŽIŽKOV</span></div>
+<div class="place-body">
+<h3>Loving Hut — Hartigova</h3>
+<p>Vegan canteen-style restaurant in Žižkov with fast, inexpensive Asian-inspired meals and a rotating buffet.</p>
+<div class="place-meta"><span class="tag eat">cheap</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Loving+Hut+Hartigova+34+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Nejpls Žižkov" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://d48-a.sdn.cz/d_48/c_img_p9_A/nCTUX1iX5DwDWzO57GL8aTI/a7a1.jpeg"/>
+<div class="photo fallback-photo eat-photo" style="display:none"><span>NEJPLS<br/>ŽIŽKOV</span></div>
+<div class="place-body">
+<h3>Nejpls Žižkov</h3>
+<p>Neapolitan-style pizza spot on Jana Želivského with soft, blistered crusts and easy vegetarian or vegan modifications.</p>
+<div class="place-meta"><span class="tag eat">pizza</span><span class="diet">🥬 🌱*</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Nejpls+Zizkov+Jana+Zelivskeho+1772%2F10+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.instagram.com/nejpls_zizkov/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Dobrotéka Žižkov" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.prague.eu/wp-content/uploads/2024/06/dobroteka-zizkov-01.jpg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>DOBROTÉKA</span></div>
+<div class="place-body">
+<h3>Dobrotéka Žižkov</h3>
+<p>Neighbourhood café and deli with breakfast, sandwiches, pastries, coffee and wine; a relaxed local stop close to Ohrada.</p>
+<div class="place-meta"><span class="tag eat">café</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Dobroteka+Hartigova+176+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.dobroteka.cz/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="KOPI" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://europeancoffeetrip.com/wp-content/uploads/city-guides/cafes/24140/24ffe601-f4fb-4793-ad7b-c615ca0add10.jpg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>KOPI<br/>PALMOVKA</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>KOPI</h3>
+<p>Large Palmovka café right by the tram and metro hub, with specialty coffee, brunch dishes and plenty of space to sit.</p>
+<div class="place-meta"><span class="tag eat">coffee</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=KOPI+Zenklova+2530%2F23+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.instagram.com/kopi_prg/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Veletržní palác, home of Kolektor" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.avantgarde-prague.cz/media/filer_public_thumbnails/filer_public/89/4b/894b372f-517a-46a3-9d7a-43fd843b0b1c/14_trade_fair_palace_prague.jpg__1280x1024_q85_subsampling-2.jpg"/>
+<div class="photo fallback-photo eat-photo" style="display:none"><span>KOLEKTOR</span></div>
+<div class="place-body">
+<h3>Kolektor</h3>
+<p>Café and bar inside Veletržní palác, good for coffee, drinks and a design-heavy gallery atmosphere.</p>
+<div class="place-meta"><span class="tag eat">coffee + drinks</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Kolektor+Veletrzni+palac+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="moe" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://europeancoffeetrip.com/wp-content/uploads/city-guides/cafes/22576/moeprague_1748693251_3644625609082057424_72101714207.jpg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>MOE</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>moe</h3>
+<p>Veverkova café-bistro with specialty coffee, breakfast, pastries, small plates and natural wine.</p>
+<div class="place-meta"><span class="tag eat">coffee + food</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=moe+Veverkova+8+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.instagram.com/moeprague/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Bullerbyn" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.praguebeergarden.com/images/uploads/pubs/_large/bullerbyn-bar-prague-vinohrady-04.jpg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>BULLERBYN</span></div>
+<div class="place-body">
+<h3>Bullerbyn</h3>
+<p>Vinohrady café-bar with coffee, food, wine, beer and cocktails; best for a long, relaxed hangout.</p>
+<div class="place-meta"><span class="tag eat">food + drinks</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Bullerbyn+Chodska+17+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.bullerbyn.cz/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Krafin" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://images.happycow.net/venues/1024/32/66/hcmp326608_2084975.jpeg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>KRAFIN</span></div>
+<div class="place-body">
+<h3>Krafin</h3>
+<p>Fully plant-based bakery and café known for vegan pastries, laminated doughs, desserts and weekend brunch.</p>
+<div class="place-meta"><span class="tag eat">bakery + brunch</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Krafin+Voronezska+19+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.krafin.cz/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat concert">
+<img alt="Acid Coffee" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://haleyblackall.com/wp-content/uploads/2025/07/Prague-Czech-Republic-2022-1-135-1.jpg"/><div class="photo fallback-photo music-photo" style="display:none"><span>ACID<br/>COFFEE</span></div>
+<div class="place-body">
+<h3>Acid Coffee</h3>
+<p>Strossmayerovo náměstí café and bar with specialty coffee, drinks and occasional DJ or cultural events.</p>
+<div class="place-meta"><span class="tag eat">coffee + drinks</span><span class="tag night">events</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Acid+Coffee+Dukelskych+hrdinu+25a+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.acidcoffee.cz/" target="_blank">info ↗</a>
+</div>
+<div class="event-check">No Sep 4–6 event found in the public listings I checked, so it stays as a café / drinks stop rather than a scheduled event.</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Café Letka" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.avantgarde-prague.cz/media/filer_public_thumbnails/filer_public/5e/55/5e557945-c395-4c8c-8431-4d69c5c98952/cafe-letka-prague.jpg__800x800_q85_subsampling-2.jpg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>LETKA</span></div>
+<div class="place-body">
+<h3>Café Letka</h3>
+<p>Letná café in a beautiful old interior, popular for coffee, breakfast and lingering over drinks.</p>
+<div class="place-meta"><span class="tag eat">coffee + drinks</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Cafe+Letka+Letohradska+44+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Osada" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.finep.cz/storage/images/magazine/restaurace-osada/osada-1.jpg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>OSADA</span></div>
+<div class="place-body">
+<h3>Osada</h3>
+<p>Relaxed Holešovice café with breakfast, brunch and a casual neighbourhood feel.</p>
+<div class="place-meta"><span class="tag eat">coffee</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Osada+Osadni+35+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="The Miners — Komunardů" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://cdn.myshoptet.com/usr/www.theminers.eu/user/documents/upload/Komunardu/komunardu_03.jpg?v=1774224000066"/><div class="photo fallback-photo eat-photo" style="display:none"><span>MINERS</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>The Miners — Komunardů</h3>
+<p>Specialty coffee spot in Holešovice with a modern interior and reliable espresso, filter coffee and light food.</p>
+<div class="place-meta"><span class="tag eat">coffee</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=The+Miners+Coffee+Komunardu+35+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Kino Atlas cafe" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.kinoatlaspraha.cz/files/2025-01/250127044221-7937.jpg"/>
+<div class="photo fallback-photo eat-photo" style="display:none"><span>KINO<br/>ATLAS</span></div>
+<div class="place-body">
+<h3>Kino Atlas café</h3>
+<p>Cinema café near Florenc with coffee, wine and an old-school movie-house atmosphere.</p>
+<div class="place-meta"><span class="tag eat">coffee + wine</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Kino+Atlas+Ke+Stvanici+371+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://kinoatlaspraha.cz/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="mamacoffee Jiřák" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.mamacoffee.cz/user/documents/upload/kavarny/jzp.jpg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>MAMA<br/>COFFEE</span></div>
+<div class="place-body">
+<h3>mamacoffee Jiřák</h3>
+<p>Long-running specialty coffee café right by Jiřího z Poděbrad, convenient for market mornings.</p>
+<div class="place-meta"><span class="tag eat">coffee</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=mamacoffee+Jiriho+z+Podebrad+12+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.mamacoffee.cz/namesti-jiriho-z-podebrad/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<div class="photo fallback-photo eat-photo"><span>SEKTOR</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>Café Sektor</h3>
+<p>Vinohrady café and brunch spot near Jiřák with a clean modern interior and all-day breakfast-style food.</p>
+<div class="place-meta"><span class="tag eat">coffee + brunch</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Cafe+Sektor+Moravska+21+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.cafesektor.cz/en" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Spižírna 1902" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/7e/14/d5/interior.jpg?w=900&amp;h=500&amp;s=1"/>
+<div class="photo fallback-photo eat-photo" style="display:none"><span>SPIŽÍRNA<br/>1902</span></div>
+<div class="place-body">
+<h3>Spižírna 1902</h3>
+<p>Korunní café-bistro known for brunch, cakes, light meals and a warm neighbourhood atmosphere.</p>
+<div class="place-meta"><span class="tag eat">food + coffee</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Spizirna+1902+Korunni+86+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.spizirna1902.cz/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Bejgl bagels in Prague" class="photo" referrerpolicy="no-referrer" src="https://images.squarespace-cdn.com/content/v1/6808bb4d8201033c9af41ae6/2a4136e8-ff4f-4466-ab97-35790d0d5b91/Bejgl%2B16.jpg"/>
+<div class="place-body">
+<h3>Bejgl</h3>
+<p>Korunní bakery focused on sourdough bagels, sandwiches, breads and sweet bakes.</p>
+<div class="place-meta"><span class="tag eat">quick bite</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Bejgl+Korunni+67+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.bejgl.cz/" target="_blank">info ↗</a></div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<div class="photo fallback-photo eat-photo"><span>VARŠAVA</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>Restaurace Varšava</h3>
+<p>Budget-friendly Žižkov restaurant with straightforward Czech-style meals and a very local feel.</p>
+<div class="place-meta"><span class="tag eat">budget</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Restaurace+Varsava+Viklefova+14+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<div class="photo fallback-photo eat-photo"><span>U VOZOVNY</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>U Vozovny 6</h3>
+<p>Simple neighbourhood bistro near Ohrada, useful for a cheap and quick lunch.</p>
+<div class="place-meta"><span class="tag eat">budget</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=U+Vozovny+6+Biskupcova+54+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Puro Gelato" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://media-cdn.tripadvisor.com/media/photo-s/19/2b/2c/81/puro-gelato.jpg"/>
+<div class="photo fallback-photo eat-photo" style="display:none"><span>PURO<br/>GELATO</span></div>
+<div class="place-body">
+<h3>Puro Gelato</h3>
+<p>Prague gelateria known for smooth Italian-style gelato and sorbets.</p>
+<div class="place-meta"><span class="tag eat">ice cream</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Puro+Gelato+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Crème de la Crème" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://images.happycow.net/venues/1024/16/58/hcmp165828_1673210.jpeg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>CRÈME<br/>DE LA CRÈME</span></div>
+<div class="place-body">
+<h3>Crème de la Crème</h3>
+<p>Popular Prague ice-cream chain with a huge flavour selection and several easy-to-reach branches.</p>
+<div class="place-meta"><span class="tag eat">ice cream</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Creme+de+la+Creme+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Imaginární zmrzlina" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://images.happycow.net/venues/1024/26/03/hcmp260312_2815196.jpeg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>IMAGINÁRNÍ<br/>ZMRZLINA</span></div>
+<div class="place-body">
+<h3>Imaginární zmrzlina</h3>
+<p>Fully vegan Karlín ice-cream shop making plant-based flavours from cashew and coconut bases.</p>
+<div class="place-meta"><span class="tag eat">ice cream</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Imaginarni+zmrzlina+Prvniho+pluku+14+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://imgnr.cz/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Vegan Bánh Mì" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://images.happycow.net/venues/1024/48/94/hcmp489419_3308668.jpeg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>VEGAN<br/>BÁNH MÌ</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>Vegan Bánh Mì</h3>
+<p>Fast Karlín vegan spot for bánh mì and quick Vietnamese-inspired bites.</p>
+<div class="place-meta"><span class="tag eat">quick bite</span><span class="diet">🥬 🌱</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Vegan+Banh+Mi+Sokolovska+67+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Etapa" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://c.trigema.cz/images/album/Products_Model_Product/558/PA035549.jpg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>ETAPA</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>Etapa</h3>
+<p>Karlín bakery and brunch café known for excellent bread, pastries and seasonal breakfast dishes.</p>
+<div class="place-meta"><span class="tag eat">brunch</span><span class="diet">🥬</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Etapa+Urxova+6+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="eat">
+<img alt="Můj šálek kávy" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://europeancoffeetrip.com/wp-content/uploads/city-guides/cafes/293/mujsalekkavy_1691089629_3161411402907544105_7755238.jpg"/><div class="photo fallback-photo eat-photo" style="display:none"><span>MŮJ<br/>ŠÁLEK KÁVY</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>Můj šálek kávy</h3>
+<p>One of Karlín’s best-known specialty coffee cafés, with strong coffee, breakfast and brunch.</p>
+<div class="place-meta"><span class="tag eat">coffee + food</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Muj+salek+kavy+Krizikova+105+Prague" target="_blank">Google Maps ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="concert">
+<img alt="Mystic Skatepark Štvanice" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://pct-wp-prod.storage.googleapis.com/2024/06/24112016/518281468_1506264903670408_4727177599126191100_n.jpg"/><div class="photo fallback-photo music-photo" style="display:none"><span>MYSTIC<br/>ŠTVANICE</span></div>
+<div class="place-body">
+<h3>Mystic Skatepark Štvanice</h3>
+<p>Iconic riverside skatepark on Štvanice; this weekend it also hosts music events including PSH and Komiks.</p>
+<div class="place-meta"><span class="tag skate">skate</span><span class="tag night">music</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Mystic+Skatepark+Stvanice+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.mysticsk8cup.cz/en" target="_blank">events ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="concert">
+<img alt="Bike Jesus" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://refstatic.sk/article/475d13a124e4805cec2c.jpg?is=1200x2000&amp;s=de1586746f17fd414307bf29b14fb3d291f2987cb385a3fb1c00809f4f0b9f49"/><div class="photo fallback-photo music-photo" style="display:none"><span>BIKE<br/>JESUS</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>Bike Jesus</h3>
+<p>Alternative Štvanice bar and club with a DIY bike/skate crowd, outdoor space and late-night electronic events.</p>
+<div class="place-meta"><span class="tag night">music</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Bike+Jesus+Stvanice+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://bikejesus.com/" target="_blank">events ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="concert">
+<img alt="Fuchs2" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://mapamatky.cz/wp-content/uploads/2024/04/Fuchs.jpg"/><div class="photo fallback-photo music-photo" style="display:none"><span>FUCHS2</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>Fuchs2</h3>
+<p>Underground club on Štvanice focused on techno, electronic music, sound-system nights and experimental programming.</p>
+<div class="place-meta"><span class="tag night">music</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Fuchs2+Stvanice+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.fuchs2.cz/shows" target="_blank">events ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="concert">
+<img alt="Cross Club" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.crossclub.cz/files/2022/rijen/cross-club.jpg"/><div class="photo fallback-photo music-photo" style="display:none"><span>CROSS<br/>CLUB</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>Cross Club</h3>
+<p>Industrial-style Holešovice club with multiple rooms, electronic music and late-night events.</p>
+<div class="place-meta"><span class="tag night">music</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Cross+Club+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.crossclub.cz/cs/program/" target="_blank">events ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="other eat">
+<img alt="Kasárna Karlín courtyard" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://media24.cz/storage/images/articles/2025/12/03/21077198a4fd_1764778837.webp"/>
+<div class="photo fallback-photo other-photo" style="display:none"><span>KASÁRNA<br/>KARLÍN</span></div>
+<div class="place-body">
+<h3>Kasárna Karlín</h3>
+<p>Large former barracks courtyard with drinks, food, culture and summer cinema; Friday has an outdoor screening of The Breakfast Club.</p>
+<div class="place-meta"><span class="tag culture">culture</span><span class="tag eat">food</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Kasarna+Karlin+Prvniho+pluku+20+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://kasarnakarlin.cz/cs/program" target="_blank">program ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="other">
+<img alt="Kino Aero" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://1gr.cz/fotky/idnes/16/013/org/LUP60eea7_01_vchod.jpg"/><div class="photo fallback-photo other-photo" style="display:none"><span>KINO<br/>AERO</span></div>
+<div class="place-body">
+<h3>Kino Aero</h3>
+<p>Independent Žižkov cinema with cult films, festivals and family programming; Saturday has Aeroškola with a screening and creative workshop.</p>
+<div class="place-meta"><span class="tag culture">cinema</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Kino+Aero+Biskupcova+31+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://kinoaero.cz/" target="_blank">program ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="other">
+<img alt="Bio Oko" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.omio.com/window-seat/wp-content/uploads/2022/04/14_Bio-oko-photo-by-alex-shoots-buildings-30-1024x683.jpg"/><div class="photo fallback-photo other-photo" style="display:none"><span>BIO<br/>OKO</span><small style="display:block;margin-top:8px;font-size:.55rem;letter-spacing:.05em;opacity:.6">photo unavailable</small></div>
+<div class="place-body">
+<h3>Bio Oko</h3>
+<p>Independent Letná cinema and bar with eclectic programming; Sunday includes a kids creative workshop screening.</p>
+<div class="place-meta"><span class="tag culture">cinema</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Bio+Oko+Frantiska+Krizka+15+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://biooko.net/" target="_blank">program ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="other">
+<img alt="Kino Pilotů" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://g.denik.cz/63/1f/kino-pilotu1.jpg"/><div class="photo fallback-photo other-photo" style="display:none"><span>KINO<br/>PILOTŮ</span></div>
+<div class="place-body">
+<h3>Kino Pilotů</h3>
+<p>Small independent Vršovice cinema known for arthouse, festival and alternative film programming.</p>
+<div class="place-meta"><span class="tag culture">cinema</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Kino+Pilotu+Donska+168+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://kinopilotu.cz/" target="_blank">program ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="other">
+<img alt="Pražačka skatepark" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://www.prahaskolska.eu/wp-content/uploads/2025/05/IMG_0877.jpg"/><div class="photo fallback-photo other-photo" style="display:none"><span>PRAŽAČKA</span></div>
+<div class="place-body">
+<h3>Pražačka skatepark</h3>
+<p>New concrete skatepark in Prague 3, built as a compact street-style plaza close to Ohrada.</p>
+<div class="place-meta"><span class="tag skate">skate</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Skatepark+Prazacka+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://prazacka.cz/skatepark/" target="_blank">info ↗</a>
+</div>
+</div>
+</article>
+<article class="place" data-type="other">
+<img alt="Kampus Hybernská" class="photo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" referrerpolicy="no-referrer" src="https://cdn.praguecitytourism.city/2024/03/13072456/1-332.jpg"/><div class="photo fallback-photo other-photo" style="display:none"><span>KAMPUS<br/>HYBERNSKÁ</span></div>
+<div class="place-body">
+<h3>Kampus Hybernská</h3>
+<p>University-led cultural campus with courtyards, events and workshops; this weekend it hosts Czech Fungi Fest.</p>
+<div class="place-meta"><span class="tag culture">culture</span></div>
+<div class="place-actions">
+<a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Kampus+Hybernska+Prague" target="_blank">Google Maps ↗</a>
+<a class="info-btn" href="https://www.kampushybernska.cz/program/czech-fungi-fest-2026" target="_blank">event ↗</a>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section class="section" id="swimming">
+<div class="section-head">
+<h2>swimming</h2>
+<div class="label">Friday first</div>
+</div>
+<div class="notes">
+<div class="note">
+<h3>1 — Lom Kojetice</h3>
+<ul><li>Small quarry near Neratovice.</li><li>Freshwater jellyfish are the identifying detail.</li><li>Best match for the place you remembered.</li></ul>
+</div>
+<div class="note">
+<h3>2 — Jezero Konětopy</h3>
+<ul><li>Backup option.</li><li>Parking is inside the recreational area.</li><li>Clean-water swimming spot.</li></ul>
+</div>
+<div class="note">
+<h3>3 — Jezero Lhota</h3>
+<ul><li>Keep as an easy backup.</li><li>More infrastructure than Kojetice.</li><li>Good if convenience matters most.</li></ul>
+</div>
+<div class="note">
+<h3>Weather logic</h3>
+<ul><li>Friday is the warmest day, so it stays the main swimming day.</li><li>Saturday works better as a flexible city day.</li><li>Sunday stays deliberately light.</li></ul>
+</div>
+</div>
+</section>
+<footer class="footer"><div class="preview-footer-note">Photos are loaded from venue/public web pages. If macOS Preview blocks them, open this file in Safari or Chrome.</div>
+<span>bunny vacation · Prague weekend</span>
+<div class="carrot"></div>
+</footer>
+</div>
+<script>
+document.querySelectorAll('.filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('#locationGrid .place').forEach(card => {
+      const types = (card.dataset.type || '').split(' ');
+      card.classList.toggle('hidden', filter !== 'all' && !types.includes(filter));
+    });
+  });
+});
+</script>
+</body>
+</html>
